@@ -1,0 +1,26 @@
+:root {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
+  width: 100%;
+  color: black;
+  font-weight: bold;
+  background: #e8ded1;
+  font-family: "FuturaPT", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+
+}
+body::-webkit-scrollbar {
+  width: 0.75rem;
+}
+body::-webkit-scrollbar-thumb {
+  background: gray;
+  border-radius: 50px;
+}
+
+.flexSpaceBetween {
+  margin-inline: 10px;
+}

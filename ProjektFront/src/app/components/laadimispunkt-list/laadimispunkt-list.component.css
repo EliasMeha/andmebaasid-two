@@ -1,0 +1,28 @@
+table {
+  width: 100%;
+  min-width: 50em;
+  height: auto;
+}
+
+.data-table {
+  padding: 2em;
+  padding-top: 1em;
+}
+
+.w-75 {
+  width: 75px;
+}
+
+.w-100 {
+  width: 100px;
+}
+
+tr.mat-row:hover {
+  Box-shadow:0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+   padding: 2em;
+}
+
+.action:hover {
+  cursor: pointer;
+}
+
