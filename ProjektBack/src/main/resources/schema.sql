@@ -222,7 +222,7 @@ CREATE TABLE  Kasutajakonto
 CREATE TABLE  Tootaja 
 (
     isik_id  bigint NOT NULL,
-    tootaja_seisundi_liik_kood  smallint NOT NULL DEFAULT 0,
+    tootaja_seisundi_liik_kood smallint NOT NULL DEFAULT 0,
 	 Mentor  bigint,
 	CONSTRAINT  PK_Tootaja  PRIMARY KEY ( isik_id ),
 	CONSTRAINT  FK_Tootaja_Tootaja_seisundi_liik  FOREIGN KEY ( tootaja_seisundi_liik_kood ) REFERENCES  Tootaja_seisundi_liik  ( tootaja_seisundi_liik_kood ) ON DELETE No Action ON UPDATE CASCADE,

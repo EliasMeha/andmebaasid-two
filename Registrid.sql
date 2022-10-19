@@ -142,7 +142,7 @@ CREATE TABLE  Isik
     isik_id  BIGSERIAL NOT NULL,
     isikukood  varchar(11)	 NOT NULL,
     synni_kp  date NOT NULL,
-    reg_aeg  timestamp(6) with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    reg_aeg  timestamp(6) with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     eesnimi  varchar(255)	 NULL,
     perenimi  varchar(255)	 NULL,
     elukoht  varchar(255)	 NULL,
