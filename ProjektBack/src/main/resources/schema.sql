@@ -137,11 +137,11 @@ CREATE TABLE  Laadimispunkti_tyyp
 (
 	laadimispunkti_tyyp_kood smallint NOT NULL,
 	laadimispunkti_tyyp_nimetus nimetus,
-	kWh smallint NOT NULL,
+	kwh smallint NOT NULL,
 	CONSTRAINT PK_Laadimispunkti_tyyp PRIMARY KEY ( laadimispunkti_tyyp_kood ),
-    CONSTRAINT AK_kWh UNIQUE(kWh),
+    CONSTRAINT AK_Laadimispunkti_tyyp_kwh UNIQUE(kwh),
     CONSTRAINT AK_Laadimispunkti_tyyp_nimetus UNIQUE (laadimispunkti_tyyp_nimetus),
-    CONSTRAINT CHK_Laadimispunkti_tyyp_kWh_on_vahemikus CHECK (kWh BETWEEN 0 AND 300)
+    CONSTRAINT CHK_Laadimispunkti_tyyp_kwh_on_vahemikus CHECK (kwh BETWEEN 0 AND 300)
 )
 ;
 

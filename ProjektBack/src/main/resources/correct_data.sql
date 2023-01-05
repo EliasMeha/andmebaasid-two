@@ -67,10 +67,6 @@ VALUES (3, 'kiire', 150);
 INSERT INTO laadimispunkti_tyyp(laadimispunkti_tyyp_kood, laadimispunkti_tyyp_nimetus, kWh)
 VALUES (4, 'ülikiire', 250);
 
-
-
-
-
 /* Testandmete laadimine*/
 
 
@@ -89,6 +85,8 @@ on teistes andmebaasides (võimalik, et teine
 andmebaasisüsteem/andmemudel), veebis, infokataloogides jne.
 Vaadake PostgreSQL erinevaid väliste andmete pakendajaid:
 https://wiki.postgresql.org/wiki/Foreign_data_wrappers */
+
+
 
 CREATE SERVER minu_testandmete_server_apex FOREIGN DATA WRAPPER
 postgres_fdw OPTIONS (host 'apex2.ttu.ee', dbname 'testandmed',
@@ -221,17 +219,6 @@ IMPORT FOREIGN SCHEMA public LIMIT TO (riik_jsonb, isik_jsonb)
 FROM SERVER minu_testandmete_server_apex INTO skeemi_nimi;
 */
 
-DROP FOREIGN TABLE IF EXISTS valine.Riik_sisend CASCADE;
-DROP FOREIGN TABLE IF EXISTS valine.Isik_sisend CASCADE;
-DROP USER MAPPING FOR t205940 SERVER
-minu_testandmete_server_apex;
-DROP SERVER IF EXISTS minu_testandmete_server_apex
-CASCADE;
-DROP SCHEMA valine CASCADE;
-DROP EXTENSION IF EXISTS postgres_fdw CASCADE;
-DROP SCHEMA laiendused CASCADE;
-
-
 
 INSERT INTO Tootaja(isik_id, tootaja_seisundi_liik_kood)
 VALUES (1, 1);
@@ -255,7 +242,7 @@ INSERT INTO laadimispunkt(laadimispunkti_kood, laiuskraad, laadimispunkti_nimetu
 VALUES (5, 179.56, 'Viies', 28.1, default, 1, 2, 2);
 
 INSERT INTO laadimispunkt(laadimispunkti_kood, laiuskraad, laadimispunkti_nimetus, pikkuskraad, reg_aeg, registreerija_id, laadimispunkti_seisundi_liik_kood, laadimispunkti_tyyp_kood)
-VALUES (6, 66.6, 'Kuues', 66.6, default, 2, 1, 4);
+VALUES (6, 66.6, 'Kuues', 66.6, default, 2, 3, 4);
 
 INSERT INTO laadimispunkti_kategooria_tyyp(laadimispunkti_kategooria_tyyp_kood, laadimispunkti_kategooria_tyyp_nimetus)
 VALUES (1, 'Laadija Kiirus');
@@ -328,3 +315,15 @@ VALUES (2);
 
 INSERT INTO tootaja_rolli_omamine(isik_id, tootaja_roll_kood)
 VALUES (1, 1);
+
+
+
+DROP FOREIGN TABLE IF EXISTS valine.Riik_sisend CASCADE;
+DROP FOREIGN TABLE IF EXISTS valine.Isik_sisend CASCADE;
+DROP USER MAPPING FOR t205940 SERVER
+minu_testandmete_server_apex;
+DROP SERVER IF EXISTS minu_testandmete_server_apex
+CASCADE;
+DROP SCHEMA valine CASCADE;
+DROP EXTENSION IF EXISTS postgres_fdw CASCADE;
+DROP SCHEMA laiendused CASCADE;
