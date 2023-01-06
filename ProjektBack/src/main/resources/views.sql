@@ -75,7 +75,7 @@ SELECT l.laadimispunkti_kood,
        l.laadimispunkti_seisundi_liik_kood,
        lsk.laadimispunkti_seisundi_liik_nimetus
 FROM laadimispunkt AS l
-         LEFT JOIN laadimispunkti_seisundi_liik AS lsk USING (laadimispunkti_seisundi_liik_kood)
+         INNER JOIN laadimispunkti_seisundi_liik AS lsk USING (laadimispunkti_seisundi_liik_kood)
 WHERE l.laadimispunkti_seisundi_liik_kood = 3
    OR l.laadimispunkti_seisundi_liik_kood = 2;
 
