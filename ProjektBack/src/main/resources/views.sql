@@ -13,7 +13,7 @@ ORDER BY count(l.laadimispunkti_kood) DESC, s.laadimispunkti_seisundi_liik_kood;
 
 COMMENT ON VIEW laadimispunkt_koondaruanne IS 'Vaade leiab kõikide laadimispunkti seisundite kohta vastavas seisundis olevad laadimispunktid. Vaade kuvab mitu laadimispunkti iga seisundi kohta on';
 
-CREATE OR REPLACE VIEW laadimispunkt_koik
+CREATE OR REPLACE VIEW laadimispunkt_koik_seisundiga
             WITH (
             security_barrier=true
             )
@@ -26,7 +26,7 @@ SELECT l.laadimispunkti_kood,
 FROM Laadimispunkt AS l
          INNER JOIN laadimispunkti_seisundi_liik AS lsl USING (laadimispunkti_seisundi_liik_kood);
 
-COMMENT ON VIEW laadimispunkt_koik IS 'Vaade leiab kõik laadimispunktid, et kasutaja saaks vaadata nimekirja kõigist laadimispunktidest.';
+COMMENT ON VIEW laadimispunkt_koik_seisundiga IS 'Vaade leiab kõik laadimispunktid, et kasutaja saaks vaadata nimekirja kõigist laadimispunktidest.';
 
 CREATE OR REPLACE VIEW laadimispunkt_detailid
             WITH (
@@ -42,7 +42,7 @@ SELECT l.laadimispunkti_kood,
        lt.laadimispunkti_tyyp_nimetus,
        lt.kwh,
        concat(i.eesnimi, ' ', i.perenimi) AS registreerija_nimi,
-       i.e_meil
+       i.e_meil as registreerija_e_meil
 FROM Laadimispunkt AS l
          INNER JOIN laadimispunkti_seisundi_liik AS lsl USING (laadimispunkti_seisundi_liik_kood)
          INNER JOIN laadimispunkti_tyyp AS lt USING (laadimispunkti_tyyp_kood)
@@ -50,7 +50,7 @@ FROM Laadimispunkt AS l
 
 COMMENT ON VIEW laadimispunkt_detailid IS 'Vaade leiab laadimispunkti detailid, et tagada kasutajale parem ülevaade laadimispunktist. Näha on laadimispunkti asukoht, laadimispunkti omadused, ja mõnda muud infot.';
 
-CREATE OR REPLACE VIEW laadimispunkt_kategooriad
+CREATE OR REPLACE VIEW laadimispunkt_kategooria_omamised
             WITH (
             security_barrier=true
             )
@@ -63,7 +63,7 @@ FROM laadimispunkti_kategooria_tyyp AS lkt
          INNER JOIN laadimispunkti_kategooria AS lk USING (laadimispunkti_kategooria_tyyp_kood)
          INNER JOIN laadimispunkti_kategooria_omamine AS lko USING (laadimispunkti_kategooria_kood);
 
-COMMENT ON VIEW laadimispunkt_kategooriad IS 'Vaade leiab kõik laadimispunktiga seotud kategooriad. See vaade on ka kasulik selleks, et laadimispunktist paremat ülevaadet saada.';
+COMMENT ON VIEW laadimispunkt_kategooria_omamised IS 'Vaade leiab kõik laadimispunktiga seotud kategooriad. See vaade on ka kasulik selleks, et laadimispunktist paremat ülevaadet saada.';
 
 CREATE OR REPLACE VIEW laadimispunkt_saab_lopetada
             WITH (
