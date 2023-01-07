@@ -7,4 +7,8 @@ REVOKE EXECUTE ON ROUTINE public.f_aktiveeri_laadimispunkt(p_laadimispunkti_kood
 REVOKE EXECUTE ON ROUTINE public.f_muuda_laadimispunkt_mitteaktiivseks(p_laadimispunkti_kood bigint) FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_registreeri_laadimispunkt(p_laadimispunkti_kood bigint, p_laiuskraad numeric, p_pikkuskraad numeric, p_nimetus nimetus, p_tootaja_id bigint, p_tyyp_kood smallint) FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_unusta_laadimispunkt(p_laadimispunkti_kood bigint) FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_eemalda_laadimispunkt_kategooriast(p_laadimispunkti_kood bigint, p_laadimispunkti_kategooria_kood smallint) FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_lisa_laadimispunkt_kategooriasse(p_laadimispunkti_kood bigint, p_laadimispunkti_kategooria_kood smallint) FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_lopeta_laadimispunkt(p_laadimispunkti_kood bigint) FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_muuda_laadimispunkt(p_laadimispunkti_kood_vana bigint, p_laadimispunkti_kood_uus bigint, p_nimetus nimetus, p_laiuskraad numeric, p_pikkuskraad numeric, p_laadimispunkti_tyyp_kood smallint) FROM PUBLIC;
 REVOKE EXECUTE ON ALL FUNCTIONS IN SCHEMA laiendused FROM PUBLIC;

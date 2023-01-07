@@ -57,7 +57,7 @@ WHERE ((l.laadimispunkti_kood = f_aktiveeri_laadimispunkt.p_laadimispunkti_kood)
             SELECT *
             FROM laadimispunkti_kategooria_omamine AS lko
             WHERE (lko.laadimispunkti_kood =
-                   f_aktiveeri_laadimispunkt.p_laadimispunkti_kood) FOR UPDATE OF laadimispunkti_kategooria_omamine))
+                   f_aktiveeri_laadimispunkt.p_laadimispunkti_kood) FOR UPDATE OF lko))
     AND (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2))
 RETURNING l.laadimispunkti_kood;
 END;
@@ -100,7 +100,7 @@ END;
 
 COMMENT ON FUNCTION f_lopeta_laadimispunkt IS 'Selle funktsiooniga lõpetatakse laadimispunkt (OP5). Parameetri p_laadimispunkti_kood väärtuseks on selle laadimispunkti kood, mida lõpetada soovitakse. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "aktiivne" või "mitteaktiivne"';
 
-CREATE OR REPLACE FUNCTION f_muuda_laadimispunkti(
+CREATE OR REPLACE FUNCTION f_muuda_laadimispunkt(
     p_laadimispunkti_kood_vana laadimispunkt.laadimispunkti_kood%TYPE,
     p_laadimispunkti_kood_uus laadimispunkt.laadimispunkti_kood%TYPE,
     p_nimetus laadimispunkt.laadimispunkti_nimetus%TYPE,
@@ -115,17 +115,17 @@ CREATE OR REPLACE FUNCTION f_muuda_laadimispunkti(
 BEGIN
 ATOMIC
 UPDATE laadimispunkt AS l
-SET laadimispunkti_kood      = f_muuda_laadimispunkt.p_laadimispunkt_kood_uus,
-    pikkuskraad              = f_muuda_laadimispunkti.p_pikkuskraad,
-    laiuskraad               = f_muuda_laadimispunkti.p_laiuskraad,
-    laadimispunkti_nimetus   = f_muuda_laadimispunkti.p_nimetus,
-    laadimispunkti_tyyp_kood = f_muuda_laadimispunkti.p_laadimispunkti_tyyp_kood
-WHERE ((l.laadimispunkti_kood = f_muuda_laadimispunkti.p_laadimispunkti_kood_vana) AND
+SET laadimispunkti_kood      = f_muuda_laadimispunkt.p_laadimispunkti_kood_uus,
+    pikkuskraad              = f_muuda_laadimispunkt.p_pikkuskraad,
+    laiuskraad               = f_muuda_laadimispunkt.p_laiuskraad,
+    laadimispunkti_nimetus   = f_muuda_laadimispunkt.p_nimetus,
+    laadimispunkti_tyyp_kood = f_muuda_laadimispunkt.p_laadimispunkti_tyyp_kood
+WHERE ((l.laadimispunkti_kood = f_muuda_laadimispunkt.p_laadimispunkti_kood_vana) AND
        (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2))
 RETURNING l.laadimispunkti_kood;
 END;
 
-COMMENT ON FUNCTION f_muuda_laadimispunkti IS 'Selle funktsiooniga muudetakse laadimispunkti (OP6). Parameetri p_laadimispunkti_kood_vana on laadimispunkti kood mida muuta tahetakse, p_laadimispunkti_kood_uus väärtuseks on selle laadimispunkti uus kood, p_pikkuskraad on uus pikkuskraad, p_laiuskraad on uus laiuskraad, p_laadimispunkti_tyyp_kood on selle tüübi kood milleks laadimispunkti muuta tahetakse ja p_nimetus on uus nimetus. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
+COMMENT ON FUNCTION f_muuda_laadimispunkt IS 'Selle funktsiooniga muudetakse laadimispunkti (OP6). Parameetri p_laadimispunkti_kood_vana on laadimispunkti kood mida muuta tahetakse, p_laadimispunkti_kood_uus väärtuseks on selle laadimispunkti uus kood, p_pikkuskraad on uus pikkuskraad, p_laiuskraad on uus laiuskraad, p_laadimispunkti_tyyp_kood on selle tüübi kood milleks laadimispunkti muuta tahetakse ja p_nimetus on uus nimetus. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
 
 CREATE OR REPLACE FUNCTION f_lisa_laadimispunkt_kategooriasse(
     p_laadimispunkti_kood laadimispunkti_kategooria_omamine.laadimispunkti_kood%TYPE,
@@ -141,15 +141,15 @@ INSERT INTO laadimispunkti_kategooria_omamine AS lko
 SELECT l.laadimispunkti_kood,
        f_lisa_laadimispunkt_kategooriasse.p_laadimispunkti_kategooria_kood AS p_laadimispunkti_kategooria_kood
 FROM laadimispunkt AS l
-WHERE ((l.laadimispunkti_kood = f_lisa_laadimispunkt_kategooriasse.p_laadimispunkt_kood) AND
-       (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF laadimispunkt
+WHERE ((l.laadimispunkti_kood = f_lisa_laadimispunkt_kategooriasse.p_laadimispunkti_kood) AND
+       (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF l
 RETURNING lko.laadimispunkti_kood;
 END;
 
 COMMENT ON FUNCTION f_lisa_laadimispunkt_kategooriasse IS 'Selle funktsiooniga lisatakse laadimispunkt kategooriasse (OP7). Parameetri p_laadimispunkti_kood väärtuseks on selle laadimispunkti kood, mida kategooriasse lisata tahetakse, p_laadimispunkti_kategooria_kood on selle kategooria kood, kuhu laadimispunkti lisada tahetakse. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
 
 CREATE OR REPLACE FUNCTION f_eemalda_laadimispunkt_kategooriast(
-    p_laadimispunkt_kood laadimispunkti_kategooria_omamine.laadimispunkti_kood%TYPE,
+    p_laadimispunkti_kood laadimispunkti_kategooria_omamine.laadimispunkti_kood%TYPE,
     p_laadimispunkti_kategooria_kood laadimispunkti_kategooria_omamine.laadimispunkti_kategooria_kood%TYPE
 ) RETURNS laadimispunkti_kategooria_omamine.laadimispunkti_kood%TYPE
     LANGUAGE sql
@@ -167,7 +167,7 @@ WHERE ((lko.laadimispunkti_kood = f_eemalda_laadimispunkt_kategooriast.p_laadimi
          FROM laadimispunkt AS l
          WHERE ((l.laadimispunkti_kood = f_eemalda_laadimispunkt_kategooriast.p_laadimispunkti_kood) AND
                 (l.laadimispunkti_seisundi_liik_kood = 0 OR
-                 l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF laadimispunkt)))
+                 l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF l)))
 RETURNING lko.laadimispunkti_kood;
 END;
 
