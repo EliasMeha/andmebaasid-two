@@ -339,15 +339,3 @@ VALUES (2);
 
 INSERT INTO tootaja_rolli_omamine(isik_id, tootaja_roll_kood)
 VALUES (1, 1);
-
-
-
-DROP FOREIGN TABLE IF EXISTS valine.Riik_sisend CASCADE;
-DROP FOREIGN TABLE IF EXISTS valine.Isik_sisend CASCADE;
-DROP USER MAPPING FOR t205940 SERVER
-    minu_testandmete_server_apex;
-DROP SERVER IF EXISTS minu_testandmete_server_apex
-    CASCADE;
-DROP SCHEMA valine CASCADE;
-DROP EXTENSION IF EXISTS postgres_fdw CASCADE;
-DROP SCHEMA laiendused CASCADE;

@@ -5,6 +5,16 @@
 /* ---------------------------------------------------- */
 
 
+DROP FOREIGN TABLE IF EXISTS valine.Riik_sisend CASCADE;
+DROP FOREIGN TABLE IF EXISTS valine.Isik_sisend CASCADE;
+DROP USER MAPPING IF EXISTS FOR t205940 SERVER
+    minu_testandmete_server_apex;
+DROP SERVER IF EXISTS minu_testandmete_server_apex
+    CASCADE;
+DROP SCHEMA IF EXISTS valine CASCADE;
+DROP EXTENSION IF EXISTS postgres_fdw CASCADE;
+DROP SCHEMA IF EXISTS laiendused CASCADE;
+
 /* Drop Tables */
 
 DROP TABLE IF EXISTS Riik CASCADE
