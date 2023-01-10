@@ -35,7 +35,7 @@ ATOMIC
 DELETE
 FROM laadimispunkt
 WHERE ((laadimispunkt.laadimispunkti_kood = f_unusta_laadimispunkt.p_laadimispunkti_kood) AND
-       (laadimispunkt.laadimispunkti_seisundi_liik_kood = 0))
+       (laadimispunkt.laadimispunkti_seisundi_liik_kood = 1))
 RETURNING laadimispunkt.laadimispunkti_kood;
 END;
 
@@ -51,14 +51,14 @@ CREATE OR REPLACE FUNCTION f_aktiveeri_laadimispunkt(
 BEGIN
 ATOMIC
 UPDATE laadimispunkt AS l
-SET laadimispunkti_seisundi_liik_kood = 1
+SET laadimispunkti_seisundi_liik_kood = 2
 WHERE ((l.laadimispunkti_kood = f_aktiveeri_laadimispunkt.p_laadimispunkti_kood)
     AND (EXISTS(
             SELECT *
             FROM laadimispunkti_kategooria_omamine AS lko
             WHERE (lko.laadimispunkti_kood =
                    f_aktiveeri_laadimispunkt.p_laadimispunkti_kood) FOR UPDATE OF lko))
-    AND (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2))
+    AND (l.laadimispunkti_seisundi_liik_kood = 1 OR l.laadimispunkti_seisundi_liik_kood = 3))
 RETURNING l.laadimispunkti_kood;
 END;
 
@@ -74,7 +74,7 @@ CREATE OR REPLACE FUNCTION f_muuda_laadimispunkt_mitteaktiivseks(
 BEGIN
 ATOMIC
 UPDATE laadimispunkt AS l
-SET laadimispunkti_seisundi_liik_kood = 2
+SET laadimispunkti_seisundi_liik_kood = 3
 WHERE ((l.laadimispunkti_kood = f_muuda_laadimispunkt_mitteaktiivseks.p_laadimispunkti_kood) AND
        (l.laadimispunkti_seisundi_liik_kood = 1))
 RETURNING l.laadimispunkti_kood;
@@ -92,9 +92,9 @@ CREATE OR REPLACE FUNCTION f_lopeta_laadimispunkt(
 BEGIN
 ATOMIC
 UPDATE laadimispunkt AS l
-SET laadimispunkti_seisundi_liik_kood = 3
+SET laadimispunkti_seisundi_liik_kood = 4
 WHERE ((l.laadimispunkti_kood = f_lopeta_laadimispunkt.p_laadimispunkti_kood) AND
-       (l.laadimispunkti_seisundi_liik_kood = 1 OR l.laadimispunkti_seisundi_liik_kood = 2))
+       (l.laadimispunkti_seisundi_liik_kood = 2 OR l.laadimispunkti_seisundi_liik_kood = 3))
 RETURNING l.laadimispunkti_kood;
 END;
 
@@ -121,7 +121,7 @@ SET laadimispunkti_kood      = f_muuda_laadimispunkt.p_laadimispunkti_kood_uus,
     laadimispunkti_nimetus   = f_muuda_laadimispunkt.p_nimetus,
     laadimispunkti_tyyp_kood = f_muuda_laadimispunkt.p_laadimispunkti_tyyp_kood
 WHERE ((l.laadimispunkti_kood = f_muuda_laadimispunkt.p_laadimispunkti_kood_vana) AND
-       (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2))
+       (l.laadimispunkti_seisundi_liik_kood = 1 OR l.laadimispunkti_seisundi_liik_kood = 3))
 RETURNING l.laadimispunkti_kood;
 END;
 
@@ -142,7 +142,7 @@ SELECT l.laadimispunkti_kood,
        f_lisa_laadimispunkt_kategooriasse.p_laadimispunkti_kategooria_kood AS p_laadimispunkti_kategooria_kood
 FROM laadimispunkt AS l
 WHERE ((l.laadimispunkti_kood = f_lisa_laadimispunkt_kategooriasse.p_laadimispunkti_kood) AND
-       (l.laadimispunkti_seisundi_liik_kood = 0 OR l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF l
+       (l.laadimispunkti_seisundi_liik_kood = 1 OR l.laadimispunkti_seisundi_liik_kood = 3)) FOR UPDATE OF l
 RETURNING lko.laadimispunkti_kood;
 END;
 
@@ -166,8 +166,8 @@ WHERE ((lko.laadimispunkti_kood = f_eemalda_laadimispunkt_kategooriast.p_laadimi
         (SELECT l.laadimispunkti_kood
          FROM laadimispunkt AS l
          WHERE ((l.laadimispunkti_kood = f_eemalda_laadimispunkt_kategooriast.p_laadimispunkti_kood) AND
-                (l.laadimispunkti_seisundi_liik_kood = 0 OR
-                 l.laadimispunkti_seisundi_liik_kood = 2)) FOR UPDATE OF l)))
+                (l.laadimispunkti_seisundi_liik_kood = 1 OR
+                 l.laadimispunkti_seisundi_liik_kood = 3)) FOR UPDATE OF l)))
 RETURNING lko.laadimispunkti_kood;
 END;
 

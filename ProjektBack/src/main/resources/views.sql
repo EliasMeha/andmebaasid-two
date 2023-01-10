@@ -41,7 +41,7 @@ SELECT l.laadimispunkti_kood,
        lsl.laadimispunkti_seisundi_liik_nimetus,
        lt.laadimispunkti_tyyp_nimetus,
        lt.kwh,
-       concat(i.eesnimi, ' ', i.perenimi) AS registreerija_nimi,
+       trim(concat(i.eesnimi, ' ', i.perenimi)) AS registreerija_nimi,
        i.e_meil as registreerija_e_meil
 FROM Laadimispunkt AS l
          INNER JOIN laadimispunkti_seisundi_liik AS lsl USING (laadimispunkti_seisundi_liik_kood)
