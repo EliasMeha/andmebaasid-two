@@ -11,7 +11,7 @@ $BODY$;
 
 COMMENT ON FUNCTION f_muuda_laadimispunkti_seisundi_liiki() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas seisundiliigi muudatud on võimalik. Funktsioon jooksutatakse juhul kui see pole võimalik ja funktsioon tõstatab errori.';
 
-CREATE OR REPLACE TRIGGER on_lubatud_seisundimuudatus_ootel
+CREATE OR REPLACE TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
     FOR EACH ROW
     WHEN (NOT ((old.laadimispunkti_seisundi_liik_kood = 1 AND new.laadimispunkti_seisundi_liik_kood = 2)
@@ -22,4 +22,5 @@ CREATE OR REPLACE TRIGGER on_lubatud_seisundimuudatus_ootel
                    OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 4)))
     EXECUTE FUNCTION f_muuda_laadimispunkti_seisundi_liiki();
 
-COMMENT ON TRIGGER on_lubatud_seisundimuudatus_ootel ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
+COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
+
