@@ -24,6 +24,31 @@ CREATE OR REPLACE TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus
 
 COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
 
+CREATE OR REPLACE FUNCTION f_laadimispunkt_kuulub_kategooriasse()
+    RETURNS trigger
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE NOT LEAKPROOF
+AS $BODY$
+BEGIN
+RAISE EXCEPTION 'Laadimispunkti peab kuuluma vähemalt ühte kategooriasse';
+END;
+$BODY$;
+
+COMMENT ON FUNCTION f_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas laadimispuntkil on vähemalt üks kategooria. Funktsioon jooksutatakse juhul laadimispunktil pole ühtegi kategooriat ja funktsioon tõstatab errori.';
+
+CREATE OR REPLACE TRIGGER trig_laadimispunkt_kuulub_kategooriasse
+    BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
+    FOR EACH ROW
+    WHEN (NOT ((old.laadimispunkti_seisundi_liik_kood = 1 AND new.laadimispunkti_seisundi_liik_kood = 2)
+                   OR (old.laadimispunkti_seisundi_liik_kood = new.laadimispunkti_seisundi_liik_kood)
+                   OR (old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 3)
+                   OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 2)
+                   OR (old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 4)
+                   OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 4)))
+    EXECUTE FUNCTION f_laadimispunkt_kuulub_kategooriasse();
+
+COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
 CREATE OR REPLACE FUNCTION f_trig_uus_laadimispunkt()
     RETURNS trigger
     LANGUAGE 'plpgsql'
