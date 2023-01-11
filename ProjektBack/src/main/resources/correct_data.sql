@@ -260,6 +260,14 @@ INSERT INTO laadimispunkt(laadimispunkti_kood, laiuskraad, laadimispunkti_nimetu
                           registreerija_id, laadimispunkti_seisundi_liik_kood, laadimispunkti_tyyp_kood)
 VALUES (6, 66.6, 'Kuues', 66.6, default, 2, 3, 4);
 
+INSERT INTO laadimispunkt(laadimispunkti_kood, laiuskraad, laadimispunkti_nimetus, pikkuskraad, reg_aeg,
+                          registreerija_id, laadimispunkti_seisundi_liik_kood, laadimispunkti_tyyp_kood)
+VALUES (7, 41.8, 'Whaaat', 61.5, default, 1, 1, 2);
+
+INSERT INTO laadimispunkt(laadimispunkti_kood, laiuskraad, laadimispunkti_nimetus, pikkuskraad, reg_aeg,
+                          registreerija_id, laadimispunkti_seisundi_liik_kood, laadimispunkti_tyyp_kood)
+VALUES (8, 71.2, 'Zenzen', 71.9, default, 2, 1, 1);
+
 INSERT INTO laadimispunkti_kategooria_tyyp(laadimispunkti_kategooria_tyyp_kood, laadimispunkti_kategooria_tyyp_nimetus)
 VALUES (1, 'Laadija Kiirus');
 
