@@ -52,12 +52,7 @@ BEGIN
     ATOMIC
     UPDATE laadimispunkt AS l
     SET laadimispunkti_seisundi_liik_kood = 2
-    WHERE ((l.laadimispunkti_kood = f_aktiveeri_laadimispunkt.p_laadimispunkti_kood)
-        AND (EXISTS(
-                SELECT *
-                FROM laadimispunkti_kategooria_omamine AS lko
-                WHERE (lko.laadimispunkti_kood =
-                       f_aktiveeri_laadimispunkt.p_laadimispunkti_kood) FOR UPDATE OF lko)))
+    WHERE ((l.laadimispunkti_kood = f_aktiveeri_laadimispunkt.p_laadimispunkti_kood))
     RETURNING l.laadimispunkti_kood;
 END;
 

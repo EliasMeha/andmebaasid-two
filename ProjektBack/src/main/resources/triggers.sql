@@ -31,7 +31,13 @@ CREATE OR REPLACE FUNCTION f_laadimispunkt_kuulub_kategooriasse()
     VOLATILE NOT LEAKPROOF
 AS $BODY$
 BEGIN
-RAISE EXCEPTION 'Laadimispunkti peab kuuluma vähemalt ühte kategooriasse';
+    IF (EXISTS(
+                SELECT *
+                FROM laadimispunkti_kategooria_omamine AS lko
+                WHERE (lko.laadimispunkti_kood =
+                       new.p_laadimispunkti_kood) FOR UPDATE OF lko)) THEN
+                           RAISE EXCEPTION 'Laadimispunkt peab kuuluma vähemalt ühte kategooriasse.';
+    END IF;
 END;
 $BODY$;
 
@@ -40,15 +46,10 @@ COMMENT ON FUNCTION f_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon 
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_kuulub_kategooriasse
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
     FOR EACH ROW
-    WHEN (NOT ((old.laadimispunkti_seisundi_liik_kood = 1 AND new.laadimispunkti_seisundi_liik_kood = 2)
-                   OR (old.laadimispunkti_seisundi_liik_kood = new.laadimispunkti_seisundi_liik_kood)
-                   OR (old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 3)
-                   OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 2)
-                   OR (old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 4)
-                   OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 4)))
     EXECUTE FUNCTION f_laadimispunkt_kuulub_kategooriasse();
 
-COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
+COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas antudlaadimispunktil on vähemalt üks kategooria, juhul kui seda pole, käivitatakse trigeri funktsioon.';
+
 CREATE OR REPLACE FUNCTION f_trig_uus_laadimispunkt()
     RETURNS trigger
     LANGUAGE 'plpgsql'
