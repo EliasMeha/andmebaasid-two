@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION f_muuda_laadimispunkti_seisundi_liiki()
+CREATE OR REPLACE FUNCTION f_trig_muuda_laadimispunkti_seisundi_liiki()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
@@ -9,7 +9,7 @@ RAISE EXCEPTION 'Laadimispunkti ebakorrektne seisundimuudatus';
 END;
 $BODY$;
 
-COMMENT ON FUNCTION f_muuda_laadimispunkti_seisundi_liiki() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas seisundiliigi muudatud on võimalik. Funktsioon jooksutatakse juhul kui see pole võimalik ja funktsioon tõstatab errori.';
+COMMENT ON FUNCTION f_trig_muuda_laadimispunkti_seisundi_liiki() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas seisundiliigi muudatud on võimalik. Funktsioon jooksutatakse juhul kui see pole võimalik ja funktsioon tõstatab errori.';
 
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
@@ -20,19 +20,21 @@ CREATE OR REPLACE TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus
                    OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 2)
                    OR (old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 4)
                    OR (old.laadimispunkti_seisundi_liik_kood = 3 AND new.laadimispunkti_seisundi_liik_kood = 4)))
-    EXECUTE FUNCTION f_muuda_laadimispunkti_seisundi_liiki();
+    EXECUTE FUNCTION f_trig_muuda_laadimispunkti_seisundi_liiki();
 
 COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas seisundiliigi muudatus on lubatud. Triger kontrollib kas vanast seisundi liigi koodist on võimalik minna uuele, juhul kui see pole võimalik käivitatakse trigeri funktsioon.';
 
-CREATE OR REPLACE FUNCTION f_laadimispunkt_kuulub_kategooriasse()
+CREATE OR REPLACE FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse()
     RETURNS trigger
     LANGUAGE 'plpgsql'
     COST 100
     VOLATILE NOT LEAKPROOF
+    SECURITY DEFINER
+    SET search_path = public, pg_temp
 AS $BODY$
 BEGIN
     IF (EXISTS(
-                SELECT *
+                SELECT lko.laadimispunkti_kood
                 FROM laadimispunkti_kategooria_omamine AS lko
                 WHERE (lko.laadimispunkti_kood =
                        new.p_laadimispunkti_kood) FOR UPDATE OF lko)) THEN
@@ -41,14 +43,14 @@ BEGIN
 END;
 $BODY$;
 
-COMMENT ON FUNCTION f_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas laadimispuntkil on vähemalt üks kategooria. Funktsioon jooksutatakse juhul laadimispunktil pole ühtegi kategooriat ja funktsioon tõstatab errori.';
+COMMENT ON FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas laadimispuntkil on vähemalt üks kategooria. Funktsioon jooksutatakse juhul laadimispunktil pole ühtegi kategooriat ja funktsioon tõstatab errori.';
 
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_kuulub_kategooriasse
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
     FOR EACH ROW
-    EXECUTE FUNCTION f_laadimispunkt_kuulub_kategooriasse();
+    EXECUTE FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse();
 
-COMMENT ON TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus ON laadimispunkt IS 'Trigger kontrollib kas antudlaadimispunktil on vähemalt üks kategooria, juhul kui seda pole, käivitatakse trigeri funktsioon.';
+COMMENT ON TRIGGER trig_laadimispunkt_kuulub_kategooriasse ON laadimispunkt IS 'Trigger kontrollib kas antudlaadimispunktil on vähemalt üks kategooria, juhul kui seda pole, käivitatakse trigeri funktsioon.';
 
 CREATE OR REPLACE FUNCTION f_trig_uus_laadimispunkt()
     RETURNS trigger

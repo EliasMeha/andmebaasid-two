@@ -12,6 +12,7 @@ REVOKE EXECUTE ON ROUTINE public.f_lisa_laadimispunkt_kategooriasse(p_laadimispu
 REVOKE EXECUTE ON ROUTINE public.f_lopeta_laadimispunkt(p_laadimispunkti_kood bigint) FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_muuda_laadimispunkt(p_laadimispunkti_kood_vana bigint, p_laadimispunkti_kood_uus bigint, p_nimetus nimetus, p_laiuskraad numeric, p_pikkuskraad numeric, p_laadimispunkti_tyyp_kood smallint) FROM PUBLIC;
 REVOKE EXECUTE ON ALL FUNCTIONS IN SCHEMA laiendused FROM PUBLIC;
-REVOKE EXECUTE ON ROUTINE public.f_muuda_laadimispunkti_seisundi_liiki() FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_trig_muuda_laadimispunkti_seisundi_liiki() FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_trig_unusta_laadimispunkt() FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_trig_uus_laadimispunkt() FROM PUBLIC;
+REVOKE EXECUTE ON ROUTINE public.f_trig_laadimispunkt_kuulub_kategooriasse() FROM PUBLIC;
