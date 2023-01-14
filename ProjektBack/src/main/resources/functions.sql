@@ -164,3 +164,21 @@ BEGIN
 END;
 
 COMMENT ON FUNCTION f_eemalda_laadimispunkt_kategooriast IS 'Selle funktsiooniga eemaldatakse laadimispunkt kategooriast (OP8). Parameetri p_laadimispunkti_kood väärtuseks on selle laadimispunkti kood, mida kategooriast eemaldada tahetakse, p_laadimispunkti_kategooria_kood on selle kategooria kood, kust laadimispunkti eemaldada tahetakse. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
+
+CREATE OR REPLACE FUNCTION f_kontrolli_kasutaja_saab_sisse_logida(
+    p_isik_e_meil isik.e_meil%TYPE,
+    p_isik_parool kasutajakonto.parool%TYPE
+) RETURNS boolean
+    LANGUAGE sql
+    SECURITY DEFINER
+    SET search_path = public, pg_temp AS
+
+$$
+SELECT EXISTS(SELECT null
+              FROM kasutajakonto AS k INNER JOIN tootaja_rolli_omamine AS t USING (isik_id) INNER JOIN isik i USING (isik_id)
+                WHERE p_isik_e_meil = i.e_meil
+                AND t.tootaja_roll_kood = 1
+                AND k.parool = p_isik_parool)
+$$;
+
+COMMENT ON FUNCTION f_eemalda_laadimispunkt_kategooriast IS 'Selle funktsiooniga eemaldatakse laadimispunkt kategooriast (OP8). Parameetri p_laadimispunkti_kood väärtuseks on selle laadimispunkti kood, mida kategooriast eemaldada tahetakse, p_laadimispunkti_kategooria_kood on selle kategooria kood, kust laadimispunkti eemaldada tahetakse. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
