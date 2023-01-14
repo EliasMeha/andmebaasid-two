@@ -182,4 +182,4 @@ SELECT EXISTS(SELECT null
                 AND LOCALTIMESTAMP(0) BETWEEN t.alguse_aeg AND t.lopu_aeg)
 $$;
 
-COMMENT ON FUNCTION f_eemalda_laadimispunkt_kategooriast IS 'Selle funktsiooniga eemaldatakse laadimispunkt kategooriast (OP8). Parameetri p_laadimispunkti_kood väärtuseks on selle laadimispunkti kood, mida kategooriast eemaldada tahetakse, p_laadimispunkti_kategooria_kood on selle kategooria kood, kust laadimispunkti eemaldada tahetakse. Seda operatsiooni saab täita juhul kui laadimispunkti seisund on "ootel" või "mitteaktiivne"';
+COMMENT ON FUNCTION f_kontrolli_kasutaja_saab_sisse_logida IS 'Selle funktsiooniga kontrollitakse kas kasutaja saab rakendusse sisse logida. Kontrollitakse, kas kasutaja parool ja e-meil on õiged, kasutaja on juhataja(ehk kood 1) antud ajahetkel"';
