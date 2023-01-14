@@ -11,5 +11,5 @@ public class KategooriaDTO {
 
     private String kategooriaNimetus;
 
-    private String kategooriaTyypNimeus;
+    private String kategooriaTyypNimetus;
 }

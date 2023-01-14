@@ -20,7 +20,7 @@
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
     <ng-container matColumnDef="laadimispunkti_kood">
-      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Kood</th>
+      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Laadimispunkti kood</th>
       <td mat-cell *matCellDef="let element">
         <b>{{element.laadimispunkti_kood}}</b>
       </td>
@@ -52,7 +52,7 @@
   </table>
 
   <mat-card *ngIf="dataSource.filteredData.length <= 0" style="margin-bottom: 5px">
-    <div><span>NO RESULTS</span></div>
+    <div><span>Tulemused puuduvad!</span></div>
   </mat-card>
 
 

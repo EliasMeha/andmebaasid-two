@@ -33,13 +33,14 @@ CREATE OR REPLACE FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse()
     SET search_path = public, pg_temp
 AS $BODY$
 BEGIN
-    IF (EXISTS(
+    IF NOT (EXISTS(
                 SELECT lko.laadimispunkti_kood
                 FROM laadimispunkti_kategooria_omamine AS lko
                 WHERE (lko.laadimispunkti_kood =
-                       new.p_laadimispunkti_kood) FOR UPDATE OF lko)) THEN
+                       new.laadimispunkti_kood) FOR UPDATE OF lko)) THEN
                            RAISE EXCEPTION 'Laadimispunkt peab kuuluma vähemalt ühte kategooriasse.';
     END IF;
+    RETURN new;
 END;
 $BODY$;
 
@@ -48,6 +49,7 @@ COMMENT ON FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse() IS 'Antud funkts
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_kuulub_kategooriasse
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood ON laadimispunkt
     FOR EACH ROW
+    WHEN (NOT old.laadimispunkti_seisundi_liik_kood = 2 AND new.laadimispunkti_seisundi_liik_kood = 2)
     EXECUTE FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse();
 
 COMMENT ON TRIGGER trig_laadimispunkt_kuulub_kategooriasse ON laadimispunkt IS 'Trigger kontrollib kas antudlaadimispunktil on vähemalt üks kategooria, juhul kui seda pole, käivitatakse trigeri funktsioon.';

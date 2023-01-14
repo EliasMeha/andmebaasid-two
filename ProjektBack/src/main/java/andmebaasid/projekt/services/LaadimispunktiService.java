@@ -70,7 +70,7 @@ public class LaadimispunktiService {
             LaadimispunktiKategooria laadimispunktiKategooria = lKR
                     .findKategooriaByKood(omamine.getLaadimispunkti_kategooria_kood());
             kategooriaDTO.setKategooriaNimetus(laadimispunktiKategooria.getLaadimispunkti_kategooria_nimetus());
-            kategooriaDTO.setKategooriaTyypNimeus(lKTR.findKategooriaTyypNimetusByKood(laadimispunktiKategooria.getLaadimispunkti_kategooria_tyyp_kood()));
+            kategooriaDTO.setKategooriaTyypNimetus(lKTR.findKategooriaTyypNimetusByKood(laadimispunktiKategooria.getLaadimispunkti_kategooria_tyyp_kood()));
             kategooriad.put(laadimispunktiKategooria.getLaadimispunkti_kategooria_kood(), kategooriaDTO);
         }
         laadimispunktDTO.setKategooriad(kategooriad);

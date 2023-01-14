@@ -10,7 +10,7 @@ INSERT INTO laadimispunkti_seisundi_liik(laadimispunkti_seisundi_liik_kood, laad
 VALUES (3, 'mitteaktiivne');
 
 INSERT INTO laadimispunkti_seisundi_liik(laadimispunkti_seisundi_liik_kood, laadimispunkti_seisundi_liik_nimetus)
-VALUES (4, 'lopetatud');
+VALUES (4, 'lõpetatud');
 
 INSERT INTO tootaja_seisundi_liik(tootaja_seisundi_liik_kood, tootaja_seisundi_liik_nimetus)
 VALUES (1, 'tööl');
