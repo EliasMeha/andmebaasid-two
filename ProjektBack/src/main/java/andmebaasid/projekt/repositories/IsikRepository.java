@@ -1,6 +1,7 @@
 package andmebaasid.projekt.repositories;
 
 import andmebaasid.projekt.entities.Isik;
+import andmebaasid.projekt.entities.Kasutajakonto;
 import andmebaasid.projekt.entities.Laadimispunkt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,4 +12,7 @@ public interface IsikRepository extends JpaRepository<Isik, Integer> {
 
     @Query("SELECT i FROM Isik i WHERE i.isik_id = :id")
     Isik findByIsikId(Long id);
+
+    @Query("SELECT k FROM Kasutajakonto k WHERE k.isik_id = :id")
+    Kasutajakonto findKasutajakontoByIsikId(Long id);
 }

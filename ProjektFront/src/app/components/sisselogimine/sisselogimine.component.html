@@ -1,0 +1,27 @@
+<form class="laadimispunkt-form">
+  <table class="w-100p">
+
+    <tr>
+      <td colspan="2">
+        <mat-form-field class="w-100p" appearance="outline">
+          <mat-label>Kasutajanimi</mat-label>
+          <input id="Kasutajanimi" type="text" placeholder="kasutajanimi" matInput formControlName="kasutajanimi" [(ngModel)]="kasutajanimi"/>
+        </mat-form-field>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <mat-form-field class="w-100p" appearance="outline">
+          <mat-label>Parool</mat-label>
+          <input matInput type="password" name="parool" value="" formControlName="reg_aeg" [(ngModel)]="parool"/>
+        </mat-form-field>
+      </td>
+    </tr>
+
+    <button mat-raised-button color="primary" class="new-building-btn" (click)="logiSisse(kasutajanimi, parool)">
+      Logi sisse
+    </button>
+
+  </table>
+</form>

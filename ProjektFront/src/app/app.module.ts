@@ -12,19 +12,21 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatSortModule} from "@angular/material/sort";
 import { LaadimispunktComponent } from './components/laadimispunkt/laadimispunkt.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDividerModule} from "@angular/material/divider";
 import { KoodaruanneNimekiriComponent } from './components/koodaruanne-nimekiri/koodaruanne-nimekiri.component';
 import {MatCardModule} from "@angular/material/card";
+import { SisselogimineComponent } from './components/sisselogimine/sisselogimine.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LaadimispunktListComponent,
     LaadimispunktComponent,
-    KoodaruanneNimekiriComponent
+    KoodaruanneNimekiriComponent,
+    SisselogimineComponent
   ],
     imports: [
         BrowserModule,
@@ -41,6 +43,7 @@ import {MatCardModule} from "@angular/material/card";
         MatInputModule,
         MatDividerModule,
         MatCardModule,
+        FormsModule,
     ],
   providers: [],
   bootstrap: [AppComponent]

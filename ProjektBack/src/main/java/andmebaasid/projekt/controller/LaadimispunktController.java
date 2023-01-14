@@ -1,7 +1,9 @@
 package andmebaasid.projekt.controller;
 
+import andmebaasid.projekt.dto.KasutajaDTO;
 import andmebaasid.projekt.dto.KoondaruanneDTO;
 import andmebaasid.projekt.dto.LaadimispunktDTO;
+import andmebaasid.projekt.services.AutentimiseService;
 import andmebaasid.projekt.services.KoondaruanneService;
 import andmebaasid.projekt.services.LaadimispunktiService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,5 +64,12 @@ public class LaadimispunktController {
     public LaadimispunktDTO setLaadimispunktiSeisundiLiikAktiivne(@PathVariable Long id) {
         laadimispunktiService.setLaadimispunktiSeisundiLiik(id, "aktiivne");
         return laadimispunktiService.getLaadimispunktWithId(id);
+    }
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/login")
+    public KasutajaDTO getLogin(@PathVariable String e_meil, @PathVariable String parool) {
+        System.out.printf("%s,%s", e_meil, parool);
+        return AutentimiseService.logIn(e_meil, parool);
     }
 }
