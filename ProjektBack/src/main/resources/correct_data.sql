@@ -207,7 +207,7 @@ lähteandmete hulgas olevaid isiku unikaalseid identifikaatoreid
 
 INSERT INTO kasutajakonto(isik_id, parool)
 SELECT isik_id, parool
-FROM (SELECT sha256(jsonb_array_elements(isik -> 'isikud') ->> 'parool')  AS parool,
+FROM (SELECT encode(sha256(jsonb_array_elements(isik -> 'isikud') ->> 'parool'), 'hex') AS parool,
              jsonb_array_elements(isik -> 'isikud') ->> 'email'   AS e_meil,
              jsonb_array_elements(isik -> 'isikud') ->> 'seisund' AS isiku_seisundi_liik_kood
       FROM valine.Isik_sisend) AS lahteandmed,
