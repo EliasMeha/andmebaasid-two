@@ -73,7 +73,7 @@ VALUES (4, 'ülikiire', 250);
 CREATE SCHEMA IF NOT EXISTS laiendused;
 /*Loon laienduste jaoks eraldi skeemi.*/
 
-CREATE EXTENSION IF NOT EXISTS bytea SCHEMA laiendused;
+CREATE EXTENSION IF NOT EXISTS sha256 SCHEMA laiendused;
 CREATE EXTENSION IF NOT EXISTS postgres_fdw SCHEMA laiendused;
 /*Lisan andmebaasi skeemi laiendused väliste andmete pakendamise
 laienduse, mis võimaldab PostgreSQL andmebaasis lugeda andmeid

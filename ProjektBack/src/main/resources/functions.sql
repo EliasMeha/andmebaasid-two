@@ -179,7 +179,8 @@ SELECT EXISTS(SELECT null
                 WHERE p_isik_e_meil = i.e_meil
                 AND t.tootaja_roll_kood = 1
                 AND k.parool = p_isik_parool
-                AND LOCALTIMESTAMP(0) BETWEEN t.alguse_aeg AND t.lopu_aeg)
+                AND LOCALTIMESTAMP(0) BETWEEN t.alguse_aeg AND t.lopu_aeg
+                AND i.isiku_seisundi_liik_kood = 1)
 $$;
 
 COMMENT ON FUNCTION f_kontrolli_kasutaja_saab_sisse_logida IS 'Selle funktsiooniga kontrollitakse kas kasutaja saab rakendusse sisse logida. Kontrollitakse, kas kasutaja parool ja e-meil on õiged, kasutaja on juhataja(ehk kood 1) antud ajahetkel"';
