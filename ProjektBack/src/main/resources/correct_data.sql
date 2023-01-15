@@ -73,7 +73,7 @@ VALUES (4, 'ülikiire', 250);
 CREATE SCHEMA IF NOT EXISTS laiendused;
 /*Loon laienduste jaoks eraldi skeemi.*/
 
-CREATE EXTENSION IF NOT EXISTS sha256 SCHEMA laiendused;
+CREATE EXTENSION IF NOT EXISTS pgcrypto SCHEMA laiendused;
 CREATE EXTENSION IF NOT EXISTS postgres_fdw SCHEMA laiendused;
 /*Lisan andmebaasi skeemi laiendused väliste andmete pakendamise
 laienduse, mis võimaldab PostgreSQL andmebaasis lugeda andmeid
@@ -208,7 +208,8 @@ lähteandmete hulgas olevaid isiku unikaalseid identifikaatoreid
 
 INSERT INTO kasutajakonto(isik_id, parool)
 SELECT isik_id, parool
-FROM (SELECT encode(sha256(jsonb_array_elements(isik -> 'isikud') ->> 'parool'), 'hex') AS parool,
+FROM (SELECT laiendused.crypt(jsonb_array_elements(isik -> 'isikud') ->> 'parool',laiendused.gen_salt('bf', 12)) AS parool,
+--              encode(sha256(jsonb_array_elements(isik -> 'isikud') ->> 'parool'), 'hex') AS parool,
              jsonb_array_elements(isik -> 'isikud') ->> 'email'   AS e_meil,
              jsonb_array_elements(isik -> 'isikud') ->> 'seisund' AS isiku_seisundi_liik_kood
       FROM valine.Isik_sisend) AS lahteandmed,
