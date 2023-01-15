@@ -72,7 +72,7 @@ DROP DOMAIN IF EXISTS nimetus CASCADE;
 
 CREATE DOMAIN aeg AS TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL CONSTRAINT CHK_aeg_on_maaratud_ajavahemikus CHECK (
     (VALUE BETWEEN To_Timestamp('01-01-2010 00:00:00', 'DD-MM-YYYY HH24:MI:SS')
-        AND To_Timestamp('31.12.2100 23:59:59', 'DD-MM-YYYY HH24:MI:SS')));
+        AND To_Timestamp('31.12.2100 23:59:59', 'DD-MM-YYYY HH24:MI:SS'))) DEFAULT LOCALTIMESTAMP(0);
 
 CREATE DOMAIN nimetus AS varchar(50) NOT NULL CONSTRAINT CHK_nimetus_ei_ole_tyhi_string CHECK ( VALUE !~ '^[[:space:]]*$');
 
@@ -173,7 +173,7 @@ CREATE TABLE Isik
     isik_id                  BIGSERIAL    NOT NULL,
     isikukood                varchar(254) NOT NULL,
     synni_kp                 date         NOT NULL,
-    reg_aeg                  aeg                   DEFAULT LOCALTIMESTAMP(0),
+    reg_aeg                  aeg,
     eesnimi                  varchar(50),
     perenimi                 varchar(50),
     elukoht                  varchar(1024),
@@ -227,7 +227,7 @@ CREATE TABLE Laadimispunkt
     laiuskraad                        decimal(7, 4) NOT NULL,
     pikkuskraad                       decimal(6, 4) NOT NULL,
     laadimispunkti_nimetus            nimetus,
-    reg_aeg                           aeg                    DEFAULT LOCALTIMESTAMP(0),
+    reg_aeg                           aeg,
     registreerija_id                  bigint        NOT NULL,
     laadimispunkti_seisundi_liik_kood smallint      NOT NULL DEFAULT 1,
     laadimispunkti_tyyp_kood          smallint      NOT NULL DEFAULT 1,
@@ -265,8 +265,8 @@ CREATE TABLE Laadimispunkti_kategooria_omamine
 CREATE TABLE Tootaja_rolli_omamine
 (
     tootaja_rolli_omamine_id bigserial NOT NULL,
-    alguse_aeg               aeg                            DEFAULT LOCALTIMESTAMP(0),
-    lopu_aeg                 TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT 'infinity'::timestamp without time zone,
+    alguse_aeg               aeg,
+    lopu_aeg                 TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT 'infinity'::timestamp without time zone,
     tootaja_roll_kood        smallint  NOT NULL,
     isik_id                  bigint    NOT NULL,
     CONSTRAINT PK_Tootaja_rolli_omamine PRIMARY KEY (tootaja_rolli_omamine_id),
@@ -277,7 +277,7 @@ CREATE TABLE Tootaja_rolli_omamine
     CONSTRAINT CHK_Tootaja_rolli_omamine_lopp_on_suurem_algusest CHECK (lopu_aeg > alguse_aeg),
     CONSTRAINT FK_Tootaja_rolli_omamine_Tootaja_roll FOREIGN KEY (tootaja_roll_kood) REFERENCES Tootaja_roll (tootaja_roll_kood) ON DELETE No Action ON UPDATE CASCADE,
     CONSTRAINT FK_Tootaja_rolli_omamine_Tootaja FOREIGN KEY (isik_id) REFERENCES Tootaja (isik_id) ON DELETE CASCADE ON UPDATE NO ACTION
-)
+) WITH (fillfactor = 90)
 ;
 
 /* Create Primary Keys, Indexes, Uniques, Checks */

@@ -171,9 +171,9 @@ CREATE OR REPLACE FUNCTION f_kontrolli_kasutaja_saab_sisse_logida(
 ) RETURNS boolean
     LANGUAGE sql
     SECURITY DEFINER
-    SET search_path = public, pg_temp AS
+    SET search_path = public, pg_temp
 
-$$
+BEGIN ATOMIC
 SELECT EXISTS(SELECT null
               FROM kasutajakonto AS k
                        INNER JOIN tootaja_rolli_omamine AS t USING (isik_id)
@@ -182,7 +182,7 @@ SELECT EXISTS(SELECT null
                 AND t.tootaja_roll_kood = 1
                 AND k.parool = laiendused.crypt(p_isik_parool, laiendused.gen_salt('bf', 12))
                 AND LOCALTIMESTAMP(0) BETWEEN t.alguse_aeg AND t.lopu_aeg
-                AND i.isiku_seisundi_liik_kood = 1)
-$$;
+                AND i.isiku_seisundi_liik_kood = 1);
+END;
 
 COMMENT ON FUNCTION f_kontrolli_kasutaja_saab_sisse_logida IS 'Selle funktsiooniga kontrollitakse kas kasutaja saab rakendusse sisse logida. Kontrollitakse, kas kasutaja parool ja e-meil on õiged, kasutaja on juhataja(ehk kood 1) antud ajahetkel"';
