@@ -175,10 +175,12 @@ CREATE OR REPLACE FUNCTION f_kontrolli_kasutaja_saab_sisse_logida(
 
 $$
 SELECT EXISTS(SELECT null
-                FROM kasutajakonto AS k INNER JOIN tootaja_rolli_omamine AS t USING (isik_id) INNER JOIN isik i USING (isik_id)
-                WHERE p_isik_e_meil = i.e_meil
+              FROM kasutajakonto AS k
+                       INNER JOIN tootaja_rolli_omamine AS t USING (isik_id)
+                       INNER JOIN isik i USING (isik_id)
+              WHERE p_isik_e_meil = i.e_meil
                 AND t.tootaja_roll_kood = 1
-                AND k.parool = laiendused.crypt(p_isik_parool,laiendused.gen_salt('bf', 12))
+                AND k.parool = laiendused.crypt(p_isik_parool, laiendused.gen_salt('bf', 12))
                 AND LOCALTIMESTAMP(0) BETWEEN t.alguse_aeg AND t.lopu_aeg
                 AND i.isiku_seisundi_liik_kood = 1)
 $$;

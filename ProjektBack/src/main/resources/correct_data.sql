@@ -54,7 +54,6 @@ VALUES (2, 'haldab laadimispunkti', 'Laadimispunkti haldur');
 INSERT INTO tootaja_roll(tootaja_roll_kood, kirjeldus, tootaja_roll_nimetus)
 VALUES (3, 'hooldab laadimispunkti', 'Hooldaja');
 
-
 INSERT INTO laadimispunkti_tyyp(laadimispunkti_tyyp_kood, laadimispunkti_tyyp_nimetus, kWh)
 VALUES (1, 'aeglane', 20);
 
@@ -205,11 +204,10 @@ leidmiseks, mis läheb tabelisse Kasutajakonto, saab kasutada
 lähteandmete hulgas olevaid isiku unikaalseid identifikaatoreid
 – meiliaadress või isikukoodi ja riigi kombinatsioon.*/
 
-
 INSERT INTO kasutajakonto(isik_id, parool)
 SELECT isik_id, parool
-FROM (SELECT laiendused.crypt(jsonb_array_elements(isik -> 'isikud') ->> 'parool',laiendused.gen_salt('bf', 12)) AS parool,
---              encode(sha256(jsonb_array_elements(isik -> 'isikud') ->> 'parool'), 'hex') AS parool,
+FROM (SELECT laiendused.crypt(jsonb_array_elements(isik -> 'isikud') ->> 'parool',
+                              laiendused.gen_salt('bf', 12))      AS parool,
              jsonb_array_elements(isik -> 'isikud') ->> 'email'   AS e_meil,
              jsonb_array_elements(isik -> 'isikud') ->> 'seisund' AS isiku_seisundi_liik_kood
       FROM valine.Isik_sisend) AS lahteandmed,
@@ -230,7 +228,6 @@ soovitakse kõiki tabeleid, v.a. mingid kindlad tabelid.
 IMPORT FOREIGN SCHEMA public LIMIT TO (riik_jsonb, isik_jsonb)
 FROM SERVER minu_testandmete_server_apex INTO skeemi_nimi;
 */
-
 
 INSERT INTO Tootaja(isik_id, tootaja_seisundi_liik_kood)
 VALUES (1, 1);

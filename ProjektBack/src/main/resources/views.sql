@@ -5,7 +5,7 @@ CREATE OR REPLACE VIEW laadimispunkt_koondaruanne
 AS
 SELECT s.laadimispunkti_seisundi_liik_kood,
        UPPER(s.laadimispunkti_seisundi_liik_nimetus) AS laadimispunkti_seisundi_liik_nimetus,
-       count(l.laadimispunkti_kood) AS laadimispunktide_arv
+       count(l.laadimispunkti_kood)                  AS laadimispunktide_arv
 FROM laadimispunkt AS l
          RIGHT JOIN laadimispunkti_seisundi_liik AS s USING (laadimispunkti_seisundi_liik_kood)
 GROUP BY s.laadimispunkti_seisundi_liik_kood
@@ -42,7 +42,7 @@ SELECT l.laadimispunkti_kood,
        lt.laadimispunkti_tyyp_nimetus,
        lt.kwh,
        trim(concat(i.eesnimi, ' ', i.perenimi)) AS registreerija_nimi,
-       i.e_meil as registreerija_e_meil
+       i.e_meil                                 as registreerija_e_meil
 FROM Laadimispunkt AS l
          INNER JOIN laadimispunkti_seisundi_liik AS lsl USING (laadimispunkti_seisundi_liik_kood)
          INNER JOIN laadimispunkti_tyyp AS lt USING (laadimispunkti_tyyp_kood)
