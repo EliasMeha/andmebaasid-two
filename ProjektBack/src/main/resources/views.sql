@@ -4,7 +4,7 @@ CREATE OR REPLACE VIEW laadimispunkt_koondaruanne
             )
 AS
 SELECT s.laadimispunkti_seisundi_liik_kood,
-       UPPER(s.laadimispunkti_seisundi_liik_nimetus),
+       UPPER(s.laadimispunkti_seisundi_liik_nimetus) AS laadimispunkti_seisundi_liik_nimetus,
        count(l.laadimispunkti_kood) AS laadimispunktide_arv
 FROM laadimispunkt AS l
          RIGHT JOIN laadimispunkti_seisundi_liik AS s USING (laadimispunkti_seisundi_liik_kood)
