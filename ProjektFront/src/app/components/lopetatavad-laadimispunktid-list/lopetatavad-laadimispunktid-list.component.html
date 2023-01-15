@@ -31,14 +31,9 @@
       <td mat-cell *matCellDef="let element">{{ element.nimetus}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="laiuskraad">
-      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Laiuskraad</th>
-      <td mat-cell *matCellDef="let element">{{ element.laiuskraad }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="pikkuskraad">
-      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Pikkuskraad</th>
-      <td mat-cell *matCellDef="let element">{{ element.pikkuskraad }}</td>
+    <ng-container matColumnDef="laadimispunkti_seisundi_liik_kood">
+      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Hetkseisundi kood</th>
+      <td mat-cell *matCellDef="let element">{{ element.laadimispunkti_seisundi_liik_kood }}</td>
     </ng-container>
 
     <ng-container matColumnDef="laadimispunkti_seisundi_liik_nimetus">
@@ -46,9 +41,16 @@
       <td mat-cell *matCellDef="let element">{{ element.laadimispunkti_seisundi_liik_nimetus }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="lopeta_nupp">
+      <th class="w-20" mat-header-cell mat-sort-header *matHeaderCellDef>Lõpeta laadimispunkt</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button color="primary" (click)="lopetaLaadimispunkt(element.laadimispunkti_kood, element.laadimispunkti_seisundi_liik_nimetus)">Lõpeta</button>
+      </td>
+    </ng-container>
+
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr class="action" mat-row *matRowDef="let row; columns: displayedColumns" (click)="navigateToLaadimispunktById(row.laadimispunkti_kood)"></tr>
+    <tr class="action" mat-row *matRowDef="let row; columns: displayedColumns" ></tr>
   </table>
 
   <mat-card *ngIf="dataSource.filteredData.length <= 0" style="margin-bottom: 5px">

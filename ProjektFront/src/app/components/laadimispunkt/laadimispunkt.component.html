@@ -46,7 +46,7 @@
       <td colspan="2">
         <mat-form-field class="w-100p" appearance="outline">
           <mat-label>Laadimispunkti seisund</mat-label>
-          <input matInput formControlName="laadimispunkti_seisundi_nimetus" />
+          <input matInput formControlName="laadimispunkti_seisundi_liik_nimetus" />
         </mat-form-field>
       </td>
     </tr>
@@ -55,7 +55,7 @@
       <td colspan="2">
         <mat-form-field class="w-100p" appearance="outline">
           <mat-label>Laadimispunkti seisundi tüüp (kWh)</mat-label>
-          <input matInput formControlName="laadimispunkti_tyyp_nimi" />
+          <input matInput formControlName="laadimispunkti_tyyp_kwh" />
         </mat-form-field>
       </td>
     </tr>
@@ -64,7 +64,7 @@
       <td colspan="2">
         <mat-form-field class="w-100p" appearance="outline">
           <mat-label>Laadimispunkti registreerinud töötaja nimi</mat-label>
-          <input matInput formControlName="laadimispunkti_registreeriniu_tootaja_nimi" />
+          <input matInput formControlName="laadimispunkti_registreerinud_tootaja_nimi" />
         </mat-form-field>
       </td>
     </tr>
@@ -72,7 +72,7 @@
       <td colspan="2">
         <mat-form-field class="w-100p" appearance="outline">
           <mat-label>Laadimispunkti registreerinud töötaja email</mat-label>
-          <input matInput formControlName="laadimispunkti_registreeriniu_tootaja_email" />
+          <input matInput formControlName="laadimispunkti_registreerinud_tootaja_email" />
         </mat-form-field>
       </td>
     </tr>
@@ -97,7 +97,6 @@
     <button mat-raised-button color="basic" class="new-building-btn" (click)="navigateToLaadimispunktList()">
       Tagasi
     </button>
-    <button mat-raised-button color="primary" *ngIf="isEndable()"  (click)="lopetaLaadimispunkt()">Lõpeta</button>
 
 
   </table>

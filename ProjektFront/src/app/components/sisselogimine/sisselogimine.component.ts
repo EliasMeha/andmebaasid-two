@@ -1,35 +1,69 @@
-import {Component} from '@angular/core';
-import {LaadimispunktServiceService} from "../../service/laadimispunkt-service.service";
-import {SisselogimineServiceService} from "../../service/sisselogimine.service";
-import {Kasutaja} from "../../model/kasutaja";
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
+import {AlertService} from "../../service/alert.service";
+import {SisselogimineService} from "../../service/sisselogimine.service";
+
 
 @Component({
-  selector: 'app-sisselogimine',
-  styleUrls: ['sisselogimine.component.css'],
-  templateUrl: 'sisselogimine.component.html',
+  selector: 'app-sisselogimine-list',
+  templateUrl: './sisselogimine.component.html',
+  styleUrls: ['./sisselogimine.component.css']
 })
-export class SisselogimineComponent {
+export class SisselogimineComponent implements OnInit {
+  loginForm!: FormGroup;
+  loading = false;
+  submitted = false;
+  returnUrl!: string;
 
-  kasutaja : Kasutaja | undefined = undefined;
-  kasutajanimi : string ="";
-  parool : string ="";
-  show: boolean= false;
-  submit(){
-    console.log("Kasutajanimi on " + this.kasutajanimi)
-    this.clear();
-  }
-  clear(){
-    this.kasutajanimi ="";
-    this.parool = "";
-    this.show = true;
-  }
-
-  constructor(private sisselogimine_service: SisselogimineServiceService,) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private sisselogimineService: SisselogimineService,
+    private alertService: AlertService
+  ) {
+    // redirect to home if already logged in
+    if (this.sisselogimineService.currentUserValue) {
+      this.router.navigate(['/']);
+    }
   }
 
-  logiSisse(e_meil: string, parool: string) {
-      this.sisselogimine_service.logIn(e_meil, parool).subscribe((data) => {
-        this.kasutaja = data;
-      });
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      kasutajanimi: ['', Validators.required],
+      parool: ['', Validators.required]
+    });
+
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
+
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+
+    // reset alerts on submit
+    this.alertService.clear();
+
+    // stop here if form is invalid
+    if (this.loginForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    this.sisselogimineService.login(this.f['kasutajanimi'].value, this.f["parool"].value)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+        },
+        error => {
+          this.alertService.error(error);
+          this.loading = false;
+        });
   }
 }

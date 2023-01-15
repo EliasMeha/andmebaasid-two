@@ -10,7 +10,7 @@ INSERT INTO laadimispunkti_seisundi_liik(laadimispunkti_seisundi_liik_kood, laad
 VALUES (0, 'ootel');
 
 INSERT INTO laadimispunkti_seisundi_liik(laadimispunkti_seisundi_liik_kood, laadimispunkti_seisundi_liik_nimetus)
-VALUES (3, 'lopetatud');
+VALUES (3, 'lõpetatud');
 
 INSERT INTO riik(riik_kood, riik_nimetus)
 VALUES ('EST', 'Eesti');

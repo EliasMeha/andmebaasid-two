@@ -17,6 +17,11 @@ export class LaadimispunktServiceService {
       .pipe(map((data: any) => data), catchError(this.handleError));
   }
 
+  getAllLopetatavad(): Observable<Laadimispunkt[]> {
+    return this.conncetion.get('/laadimispunkt/lopetatavad')
+      .pipe(map((data: any) => data), catchError(this.handleError));
+  }
+
   getAllKoodaruanne(): Observable<Koondaruanne[]> {
     return this.conncetion.get('/laadimispunkt/koondaruanne')
       .pipe(map((data: any) => data), catchError(this.handleError));

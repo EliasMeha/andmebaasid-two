@@ -41,24 +41,11 @@ export class LaadimispunktComponent implements OnInit {
       });
     }
   }
-  lopetaLaadimispunkt() {
-    if (this.isEndable()) {
-      this.laadimispunkt_service.lopeta(BigInt(this.id!)).subscribe((data) => {
-        this.form = this.initForm(data);
-        this.laadimispunkt = data;
-      });
-    }
-  }
-
-  isEndable(): boolean {
-    return this.laadimispunkt?.laadimispunkti_seisundi_nimetus === 'aktiivne' ||
-      this.laadimispunkt?.laadimispunkti_seisundi_nimetus === 'mitteaktiivne'
-  }
 
   aktiveeriLaadimispunkt() {
-    if (this.laadimispunkt?.laadimispunkti_seisundi_nimetus === 'lopetatud' ||
-      this.laadimispunkt?.laadimispunkti_seisundi_nimetus === 'mitteaktiivne' ||
-      this.laadimispunkt?.laadimispunkti_seisundi_nimetus === 'lõpetatud') {
+    if (this.laadimispunkt?.laadimispunkti_seisundi_liik_nimetus === 'lopetatud' ||
+      this.laadimispunkt?.laadimispunkti_seisundi_liik_nimetus === 'mitteaktiivne' ||
+      this.laadimispunkt?.laadimispunkti_seisundi_liik_nimetus === 'lõpetatud') {
       this.laadimispunkt_service.aktiveeri(BigInt(this.id!)).subscribe((data) => {
         this.form = this.initForm(data);
         this.laadimispunkt = data;
@@ -119,9 +106,9 @@ export class LaadimispunktComponent implements OnInit {
           disabled: true,
       }
       ),
-      laadimispunkti_seisundi_nimetus: new FormControl(
+      laadimispunkti_seisundi_liik_nimetus: new FormControl(
         {
-          value: laadimispunkt?.laadimispunkti_seisundi_nimetus || '',
+          value: laadimispunkt?.laadimispunkti_seisundi_liik_nimetus || '',
           disabled: true,
       },
           [Validators.required,
@@ -129,17 +116,17 @@ export class LaadimispunktComponent implements OnInit {
             Validators.pattern('mitteaktiivne')]
 
       ),
-      laadimispunkti_tyyp_nimi: new FormControl(
+      laadimispunkti_tyyp_kwh: new FormControl(
         {
-          value: laadimispunkt?.laadimispunkti_tyyp_nimi || '',
+          value: laadimispunkt?.laadimispunkti_tyyp_kwh || '',
           disabled: true,
       }),
-      laadimispunkti_registreeriniu_tootaja_nimi: new FormControl(
+      laadimispunkti_registreerinud_tootaja_nimi: new FormControl(
       {
-        value: laadimispunkt?.eesnimi + ' ' + laadimispunkt?.perenimi || '',
+        value: laadimispunkt?.registreerija_nimi || '',
         disabled: true,
       }),
-      laadimispunkti_registreeriniu_tootaja_email: new FormControl(
+      laadimispunkti_registreerinud_tootaja_email: new FormControl(
         {
           value: laadimispunkt?.e_post || '',
           disabled: true,

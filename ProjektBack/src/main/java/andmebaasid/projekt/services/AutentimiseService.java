@@ -10,7 +10,7 @@ public class AutentimiseService {
     @Autowired
     private IsikRepository isikRepository;
 
-    public static KasutajaDTO logIn(String e_meil, String parool) {
+    public static KasutajaDTO logIn(KasutajaDTO kasutajaDTO) {
         return null;
     }
 }

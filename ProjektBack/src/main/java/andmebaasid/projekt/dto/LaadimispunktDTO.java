@@ -19,10 +19,12 @@ public class LaadimispunktDTO {
     private Long registreerija_id;
     private Long laadimispunkti_seisundi_liik_kood;
     private Long laadimispunkti_tyyp_id;
-    private String laadimispunkti_seisundi_nimetus;
+    private String laadimispunkti_seisundi_liik_nimetus;
+    private Long laadimispunkti_tyyp_kwh;
     private String eesnimi;
     private String perenimi;
+    private String registreerija_nimi;
     private String e_post;
-    private Long laadimispunkti_tyyp_nimi;
+    private String laadimispunkti_tyyp_nimi;
     private Map<Integer, KategooriaDTO> kategooriad;
 }

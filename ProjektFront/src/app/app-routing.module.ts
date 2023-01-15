@@ -4,14 +4,18 @@ import {LaadimispunktListComponent} from "./components/laadimispunkt-list/laadim
 import {LaadimispunktComponent} from "./components/laadimispunkt/laadimispunkt.component";
 import {KoodaruanneNimekiriComponent} from "./components/koodaruanne-nimekiri/koodaruanne-nimekiri.component";
 import {SisselogimineComponent} from "./components/sisselogimine/sisselogimine.component";
+import {AuthGuard} from "./helpers/auth.guard";
+import {LopetatavadLaadimispunktidListComponent} from "./components/lopetatavad-laadimispunktid-list/lopetatavad-laadimispunktid-list.component";
 
 
 const routes: Routes = [
+  { path: '',   component: SisselogimineComponent, canActivate: [AuthGuard]  },
   { path: 'list', component: LaadimispunktListComponent},
+  { path: 'lopetatavad', component: LopetatavadLaadimispunktidListComponent},
   { path: 'koondaruanne', component: KoodaruanneNimekiriComponent},
   { path: 'laadimispunkt/:id', component: LaadimispunktComponent},
   { path: 'sisselogimine', component: SisselogimineComponent},
-  { path: '',   redirectTo: '/sisselogimine', pathMatch: 'full'  }
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({

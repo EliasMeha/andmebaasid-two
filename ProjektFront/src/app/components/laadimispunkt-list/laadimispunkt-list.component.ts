@@ -27,7 +27,7 @@ export class LaadimispunktListComponent implements OnInit {
     this.dataSource.filter = filterValue;
   }
 
-  displayedColumns: string[] = ['laadimispunkti_kood', 'nimetus', 'pikkuskraad', 'laiuskraad', 'laadimispunkti_seisundi_nimetus']
+  displayedColumns: string[] = ['laadimispunkti_kood', 'nimetus', 'pikkuskraad', 'laiuskraad', 'laadimispunkti_seisundi_liik_nimetus']
   dataSource = new MatTableDataSource<Laadimispunkt>();
 
   constructor(private router: Router, public laadimispunktService: LaadimispunktServiceService) {}

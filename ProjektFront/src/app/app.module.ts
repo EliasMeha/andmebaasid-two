@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { LaadimispunktListComponent } from './components/laadimispunkt-list/laadimispunkt-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from "@angular/router";
@@ -18,7 +18,11 @@ import {MatInputModule} from "@angular/material/input";
 import {MatDividerModule} from "@angular/material/divider";
 import { KoodaruanneNimekiriComponent } from './components/koodaruanne-nimekiri/koodaruanne-nimekiri.component';
 import {MatCardModule} from "@angular/material/card";
-import { SisselogimineComponent } from './components/sisselogimine/sisselogimine.component';
+import {AlertComponent} from "./components/alert/alert.component";
+import {ErrorInterceptor} from "./helpers/error.interceptor";
+import {JwtInterceptor} from "./helpers/jwt.interceptor";
+import {SisselogimineComponent} from "./components/sisselogimine/sisselogimine.component";
+import { LopetatavadLaadimispunktidListComponent } from './components/lopetatavad-laadimispunktid-list/lopetatavad-laadimispunktid-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,9 @@ import { SisselogimineComponent } from './components/sisselogimine/sisselogimine
     LaadimispunktListComponent,
     LaadimispunktComponent,
     KoodaruanneNimekiriComponent,
-    SisselogimineComponent
+    SisselogimineComponent,
+    AlertComponent,
+    LopetatavadLaadimispunktidListComponent
   ],
     imports: [
         BrowserModule,
@@ -45,7 +51,10 @@ import { SisselogimineComponent } from './components/sisselogimine/sisselogimine
         MatCardModule,
         FormsModule,
     ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
