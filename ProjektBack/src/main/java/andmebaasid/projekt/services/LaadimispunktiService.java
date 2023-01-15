@@ -13,7 +13,6 @@ import andmebaasid.projekt.repositories.LaadimispunktKoikSeisundigaRepository;
 import andmebaasid.projekt.repositories.LaadimispunktRepository;
 import andmebaasid.projekt.repositories.LaadimispunktSaabLopetadaRepository;
 import andmebaasid.projekt.repositories.LaadimispunktDetailidRepository;
-import andmebaasid.projekt.repositories.LaadimispunktiSeisundiLiikRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,19 +29,6 @@ public class LaadimispunktiService {
 
     @Autowired
     private LaadimispunktRepository lR;
-    /*@Autowired
-    private LaadimispunktiSeisundiLiikRepository lSLRR;
-    @Autowired
-    private IsikRepository iR;
-    @Autowired
-    private LaadimispunktiTyypRepository lTR;
-    @Autowired
-    private LaadimispunktiKategooriaOmamineRepository lKOR;
-    @Autowired
-    private LaadimispunktiKategooriaRepository lKR;
-    @Autowired
-    private LaadimispunktiKategooriaTyypRepository lKTR;*/
-
     @Autowired
     private LaadimispunktKoikSeisundigaRepository lKSR;
     @Autowired
@@ -51,41 +37,6 @@ public class LaadimispunktiService {
     private LaadimispunktDetailidRepository lDR;
     @Autowired
     private LaadimispunktKategooriaOmamisedRepository lKOR;
-
-    /*public LaadimispunktDTO mapLaadimispunktToLaadimispunktDTO(Laadimispunkt laadimispunkt) {
-        LaadimispunktDTO laadimispunktDTO = new LaadimispunktDTO();
-        laadimispunktDTO.setLaadimispunkti_kood(laadimispunkt.getLaadimispunkti_kood());
-        laadimispunktDTO.setLaadimispunkti_tyyp_id(laadimispunkt.getLaadimispunkti_tyyp_kood());
-        laadimispunktDTO.setLaadimispunkti_seisundi_nimetus(lSLRR
-                .findByLaadimispunktiSeisundiLiikKood(laadimispunkt.getLaadimispunkti_seisundi_liik_kood()).getLaadimispunkti_seisundi_liik_nimetus());
-        laadimispunktDTO.setLaadimispunkti_seisundi_liik_kood(laadimispunkt.getLaadimispunkti_seisundi_liik_kood());
-        laadimispunktDTO.setNimetus(laadimispunkt.getLaadimispunkti_nimetus());
-        laadimispunktDTO.setLaiuskraad(laadimispunkt.getLaiuskraad());
-        laadimispunktDTO.setPikkuskraad(laadimispunkt.getPikkuskraad());
-        laadimispunktDTO.setReg_aeg(laadimispunkt.getReg_aeg());
-        laadimispunktDTO.setRegistreerija_id(laadimispunkt.getRegistreerija_id());
-        Isik isik = iR.findByIsikId(laadimispunkt.getRegistreerija_id());
-        laadimispunktDTO.setEesnimi(isik.getEesnimi());
-        laadimispunktDTO.setPerenimi(isik.getPerenimi());
-        laadimispunktDTO.setE_post(isik.getE_meil());
-        laadimispunktDTO.setLaadimispunkti_tyyp_nimi(lTR
-                .findByLaadimispunkti_tyyp_kood(laadimispunkt.getLaadimispunkti_tyyp_kood()).getKwh());
-
-        // Klassifikaatorid
-        List<LaadimispunktiKategooriaOmamine> omamised = lKOR.findAll();
-        omamised.removeIf(n -> (!Objects.equals(n.getLaadimispunkti_kood(), laadimispunkt.getLaadimispunkti_kood())));
-        Map<Integer, KategooriaDTO> kategooriad = new LinkedHashMap<>();
-        for (LaadimispunktiKategooriaOmamine omamine : omamised) {
-            KategooriaDTO kategooriaDTO = new KategooriaDTO();
-            LaadimispunktiKategooria laadimispunktiKategooria = lKR
-                    .findKategooriaByKood(omamine.getLaadimispunkti_kategooria_kood());
-            kategooriaDTO.setKategooriaNimetus(laadimispunktiKategooria.getLaadimispunkti_kategooria_nimetus());
-            kategooriaDTO.setKategooriaTyypNimetus(lKTR.findKategooriaTyypNimetusByKood(laadimispunktiKategooria.getLaadimispunkti_kategooria_tyyp_kood()));
-            kategooriad.put(laadimispunktiKategooria.getLaadimispunkti_kategooria_kood(), kategooriaDTO);
-        }
-        laadimispunktDTO.setKategooriad(kategooriad);
-        return laadimispunktDTO;
-    }*/
 
     public List<LaadimispunktSeisundigaDTO> getALlLaadimispunkt() {
         List<LaadimispunktSeisundigaDTO> DTOs = new LinkedList<>();
@@ -138,28 +89,6 @@ public class LaadimispunktiService {
         lDTO.setKategooriad(kategooriad);
         return lDTO;
     }
-
-    /*public List<LaadimispunktDTO> getAllActiveLaadimispunkt() {
-        List<LaadimispunktDTO> laadimispunktList = new LinkedList<>();
-        for (Laadimispunkt laadimispunkt : lR.findAll()) {
-            if (Objects.equals(lSLRR
-                    .findByLaadimispunktiSeisundiLiikKood(laadimispunkt.getLaadimispunkti_seisundi_liik_kood()).getLaadimispunkti_seisundi_liik_nimetus(), "aktiivne")) {
-                laadimispunktList.add(mapLaadimispunktToLaadimispunktDTO(laadimispunkt));
-            }
-        }
-        return laadimispunktList;
-    }*/
-
-    /*public List<LaadimispunktDTO> getAllInactiveLaadimispunkt() {
-        List<LaadimispunktDTO> laadimispunktList = new LinkedList<>();
-        for (Laadimispunkt laadimispunkt : lR.findAll()) {
-            if (Objects.equals(lSLRR
-                    .findByLaadimispunktiSeisundiLiikKood(laadimispunkt.getLaadimispunkti_seisundi_liik_kood()).getLaadimispunkti_seisundi_liik_nimetus(), "mitteaktiivne")) {
-                laadimispunktList.add(mapLaadimispunktToLaadimispunktDTO(laadimispunkt));
-            }
-        }
-        return laadimispunktList;
-    }*/
 
     @Transactional
     public void lopetaLaadimispunkt(Long id) {
