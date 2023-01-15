@@ -17,3 +17,11 @@ REVOKE EXECUTE ON ROUTINE public.f_trig_muuda_laadimispunkti_seisundi_liiki() FR
 REVOKE EXECUTE ON ROUTINE public.f_trig_unusta_laadimispunkt() FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_trig_uus_laadimispunkt() FROM PUBLIC;
 REVOKE EXECUTE ON ROUTINE public.f_trig_laadimispunkt_kuulub_kategooriasse() FROM PUBLIC;
+
+GRANT CONNECT ON DATABASE t205940 TO t205940_juhataja;
+GRANT USAGE ON SCHEMA public TO t205940_juhataja;
+GRANT EXECUTE ON FUNCTION f_lopeta_laadimispunkt(p_laadimispunkti_kood laadimispunkt.laadimispunkti_kood%TYPE),
+    f_kontrolli_kasutaja_saab_sisse_logida(p_isik_e_meil isik.e_meil%TYPE,
+    p_isik_parool kasutajakonto.parool%TYPE) TO t205940_juhataja;
+GRANT SELECT ON laadimispunkt_detailid, laadimispunkt_kategooria_omamised, laadimispunkt_koik_seisundiga, laadimispunkt_koondaruanne, laadimispunkt_saab_lopetada, laadimispunkt TO t205940_juhataja;
+GRANT UPDATE ON laadimispunkt TO t205940_juhataja;
