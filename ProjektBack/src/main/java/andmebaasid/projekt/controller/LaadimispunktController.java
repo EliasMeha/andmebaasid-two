@@ -23,6 +23,9 @@ public class LaadimispunktController {
     @Autowired
     private KoondaruanneService koondaruanneService;
 
+    @Autowired
+    private AutentimiseService autentimiseService;
+
 
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping
@@ -42,18 +45,6 @@ public class LaadimispunktController {
         return laadimispunktiService.getLaadimispunktWithId(id);
     }
 
-    /*@CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/active")
-    public List<LaadimispunktDTO> getAllActiveLaadimispunkt() {
-        return laadimispunktiService.getAllActiveLaadimispunkt();
-    }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/inactive")
-    public List<LaadimispunktDTO> getAllInActiveLaadimispunkt() {
-        return laadimispunktiService.getAllInactiveLaadimispunkt();
-    }*/
-
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/koondaruanne")
     public List<KoondaruanneDTO> getAllKoondaruanne() {
@@ -67,17 +58,12 @@ public class LaadimispunktController {
         return laadimispunktiService.getLaadimispunktWithId(id);
     }
 
-    /*@CrossOrigin(origins = "http://localhost:4200")
-    @GetMapping("/{id}/aktiveeri")
-    public LaadimispunktDTO setLaadimispunktiSeisundiLiikAktiivne(@PathVariable Long id) {
-        laadimispunktiService.setLaadimispunktiSeisundiLiik(id, "aktiivne");
-        return laadimispunktiService.getLaadimispunktWithId(id);
-    }*/
-
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/login")
     public KasutajaDTO getLogin(@RequestBody KasutajaDTO kasutajaDTO) {
-        System.out.printf("%s,%s", kasutajaDTO.getE_meil(), kasutajaDTO.getParool());
-        return AutentimiseService.logIn(kasutajaDTO);
+        boolean isLogged = autentimiseService.logiSisse(kasutajaDTO.getKasutajanimi(), kasutajaDTO.getParool());
+        System.out.println(isLogged);
+        if (isLogged) return kasutajaDTO;
+        else return null;
     }
 }

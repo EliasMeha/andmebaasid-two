@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class KasutajaDTO {
-    private String e_meil;
+    private String kasutajanimi;
     private String parool;
 }

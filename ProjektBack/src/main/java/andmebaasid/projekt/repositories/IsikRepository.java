@@ -2,7 +2,6 @@ package andmebaasid.projekt.repositories;
 
 import andmebaasid.projekt.entities.Isik;
 import andmebaasid.projekt.entities.Kasutajakonto;
-import andmebaasid.projekt.entities.Laadimispunkt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

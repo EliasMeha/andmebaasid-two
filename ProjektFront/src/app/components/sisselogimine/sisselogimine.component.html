@@ -32,14 +32,14 @@
     <label>Kasutajanimi</label>
     <input type="text" formControlName="kasutajanimi" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['kasutajanimi'].errors }" />
     <div *ngIf="submitted && f['kasutajanimi'].errors" class="invalid-feedback">
-      <div *ngIf="f['kasutajanimi'].errors['required']">Username is required</div>
+      <div *ngIf="f['kasutajanimi'].errors['required']">Kasutajanimi on kohustuslik</div>
     </div>
   </div>
   <div class="form-group">
     <label>Parool</label>
     <input type="password" formControlName="parool" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['parool'].errors }" />
     <div *ngIf="submitted && f['parool'].errors" class="invalid-feedback">
-      <div *ngIf="f['parool'].errors['required']">Password is required</div>
+      <div *ngIf="f['parool'].errors['required']">Parool on kohustuslik</div>
     </div>
   </div>
   <div class="form-group">

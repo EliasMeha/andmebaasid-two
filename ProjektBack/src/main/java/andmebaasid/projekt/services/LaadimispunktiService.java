@@ -10,12 +10,14 @@ import andmebaasid.projekt.entities.LaadimispunktSaabLopetada;
 import andmebaasid.projekt.entities.LaadimispunktDetailid;
 import andmebaasid.projekt.repositories.LaadimispunktKategooriaOmamisedRepository;
 import andmebaasid.projekt.repositories.LaadimispunktKoikSeisundigaRepository;
-import andmebaasid.projekt.repositories.LaadimispunktRepository;
 import andmebaasid.projekt.repositories.LaadimispunktSaabLopetadaRepository;
 import andmebaasid.projekt.repositories.LaadimispunktDetailidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -28,7 +30,8 @@ import java.util.stream.Collectors;
 public class LaadimispunktiService {
 
     @Autowired
-    private LaadimispunktRepository lR;
+    private EntityManager em;
+
     @Autowired
     private LaadimispunktKoikSeisundigaRepository lKSR;
     @Autowired
@@ -92,8 +95,9 @@ public class LaadimispunktiService {
 
     @Transactional
     public void lopetaLaadimispunkt(Long id) {
-        /*Integer integer = lR.lopetaLaadimispunkt(id);
-        System.out.println(integer);*/
-        lR.updateLaadimispunktStatus(id, 4L);
+        StoredProcedureQuery sp = em.createStoredProcedureQuery("f_lopeta_laadimispunkt");
+        sp.registerStoredProcedureParameter("p_laadimispunkti_kood", Long.class, ParameterMode.IN);
+        sp.setParameter("p_laadimispunkti_kood", id);
+        sp.execute();
     }
 }
