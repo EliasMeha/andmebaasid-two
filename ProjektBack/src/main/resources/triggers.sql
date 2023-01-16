@@ -10,7 +10,7 @@ BEGIN
 END;
 $BODY$;
 
-COMMENT ON FUNCTION f_trig_muuda_laadimispunkti_seisundi_liiki() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas seisundiliigi muudatud on võimalik. Funktsioon jooksutatakse juhul kui see pole võimalik ja funktsioon tõstatab errori.';
+COMMENT ON FUNCTION f_trig_muuda_laadimispunkti_seisundi_liiki() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas seisundiliigi muudatud on võimalik. Funktsioon jooksutatakse juhul kui see pole võimalik ja funktsioon tõstatab erandi.';
 
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_on_lubatud_seisundimuudatus
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood
@@ -47,7 +47,7 @@ BEGIN
 END;
 $BODY$;
 
-COMMENT ON FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas laadimispuntkil on vähemalt üks kategooria. Funktsioon jooksutatakse juhul laadimispunktil pole ühtegi kategooriat ja funktsioon tõstatab errori.';
+COMMENT ON FUNCTION f_trig_laadimispunkt_kuulub_kategooriasse() IS 'Antud funktsioon jooksutatakse trigeri poolt, mis kontrollib, kas laadimispuntkil on vähemalt üks kategooria. Funktsioon jooksutatakse juhul laadimispunktil pole ühtegi kategooriat ja funktsioon tõstatab erandi.';
 
 CREATE OR REPLACE TRIGGER trig_laadimispunkt_kuulub_kategooriasse
     BEFORE UPDATE OF laadimispunkti_seisundi_liik_kood

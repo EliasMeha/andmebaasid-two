@@ -215,21 +215,8 @@ FROM (SELECT laiendused.crypt(jsonb_array_elements(isik -> 'isikud') ->> 'parool
 WHERE isiku_seisundi_liik_kood::smallint = 1
   AND lahteandmed.e_meil = isik_andmed.e_meil;
 
-/*INSERT INTO isik(riik_kood, isikukood, eesnimi, perenimi,
-                 e_meil, synni_kp, isiku_seisundi_liik_kood, elukoht)
-VALUES ("EST",
-       20,
-       "elias",
-       "ehasalu",
-       "elias@gmail.com",
-       synni_kp::date,
-       1,
-       "kuskil elvas");
 
-INSERT INTO kasutajakonto(isik_id, parool)
-SELECT isik_id, parool
-FROM (SELECT laiendused.crypt("Zenzen" ->> 'parool', laiendused.gen_salt('bf', 12)) AS parool,
-             20 as isik_id) AS andmed;*/
+/*"email": "ward.richard@comvoy.co.uk", "parool": "incididunt"*/
 
 SELECT *
 FROM Isik;

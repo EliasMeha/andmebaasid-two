@@ -18,7 +18,7 @@ public class AutentimiseService {
 
     @Transactional
     public boolean logiSisse(String e_meil, String parool) {
-        StoredProcedureQuery sp = em.createStoredProcedureQuery("f_kontrolli_kasutaja_saab_sisse_logida");
+        StoredProcedureQuery sp = em.createStoredProcedureQuery("f_kontrolli_juhataja_saab_sisse_logida");
         sp.registerStoredProcedureParameter("p_isik_e_meil", String.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_isik_parool", String.class, ParameterMode.IN);
         sp.registerStoredProcedureParameter("p_saab_logida", boolean.class, ParameterMode.OUT);
