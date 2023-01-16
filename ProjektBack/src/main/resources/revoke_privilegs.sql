@@ -29,6 +29,6 @@ GRANT SELECT ON laadimispunkt_detailid, laadimispunkt_kategooria_omamised, laadi
 REVOKE CONNECT ON DATABASE t205940 FROM t205940_juhataja;
 REVOKE USAGE ON SCHEMA public FROM t205940_juhataja;
 REVOKE EXECUTE ON FUNCTION f_lopeta_laadimispunkt(p_laadimispunkti_kood laadimispunkt.laadimispunkti_kood%TYPE),
-    f_kontrolli_kasutaja_saab_sisse_logida(p_isik_e_meil isik.e_meil%TYPE,
+    f_kontrolli_juhataja_saab_sisse_logida(p_isik_e_meil isik.e_meil%TYPE,
     p_isik_parool kasutajakonto.parool%TYPE) FROM t205940_juhataja;
 REVOKE SELECT ON laadimispunkt_detailid, laadimispunkt_kategooria_omamised, laadimispunkt_koik_seisundiga, laadimispunkt_koondaruanne, laadimispunkt_saab_lopetada FROM t205940_juhataja;
